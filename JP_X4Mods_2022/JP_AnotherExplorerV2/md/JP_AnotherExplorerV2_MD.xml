@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="utf-8" ?>
+
+<mdscript name="JP_AnotherExplorerV2_MD" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="md.xsd">
+  <cues>
+
+    <cue name="JP_AnotherExplorerV2Debug_MD" instantiate="false" checkinterval="2s" checktime="player.age">
+      <actions>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <set_value name="$DEBUG" exact="0"/>
+        <do_if value="$DEBUG gt 0">
+          <set_value name="$DebugScriptName" exact="'JP_AnotherExplorerV2Debug_MD'"/>
+          <set_value name="$DebugFolderName" exact="'JP_AnotherExplorerV2.logs'"/>
+          <set_value name="$DebugFileName" exact="$DebugScriptName + '.xml.log'"/>
+          <debug_to_file append="false" directory="$DebugFolderName" name="$DebugFileName" text="'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'"/>
+          <debug_to_file directory="$DebugFolderName" name="$DebugFileName" text="'[' + player.systemtime.{'%F - %X'} + '] ' + '~~ ' + $DebugScriptName + '.xml ~ Started ~~' + '\n'"/>
+        </do_if>
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+        <do_if value="$DEBUG gt 0">
+
+          <debug_to_file directory="$DebugFolderName" name="$DebugFileName" text="'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'"/>
+          <debug_to_file directory="$DebugFolderName" name="$DebugFileName" text="'global.$AnotherExplorerV2SectorBlackList'"/>
+          <debug_to_file directory="$DebugFolderName" name="$DebugFileName" text="'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'"/>
+          <do_if value="global.$AnotherExplorerV2SectorBlackList?">
+            <do_for_each name="$_Sector" in="@global.$AnotherExplorerV2SectorBlackList">
+              <debug_to_file directory="$DebugFolderName" name="$DebugFileName" text="'~ Sector: %1 ~~ [%2].'.[@$_Sector.knownname, @$_Sector.owner.knownname]"/>
+            </do_for_each>
+          </do_if>
+          <debug_to_file directory="$DebugFolderName" name="$DebugFileName" text="'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n'"/>
+
+          <debug_to_file directory="$DebugFolderName" name="$DebugFileName" text="'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'"/>
+          <debug_to_file directory="$DebugFolderName" name="$DebugFileName" text="'global.$AnotherExplorerV2Ships'"/>
+          <debug_to_file directory="$DebugFolderName" name="$DebugFileName" text="'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'"/>
+          <do_if value="global.$AnotherExplorerV2Ships?">
+            <do_for_each name="$_FoundShip" in="@global.$AnotherExplorerV2Ships">
+              <debug_to_file directory="$DebugFolderName" name="$DebugFileName" text="'~ Ship: %1 [%2] ~~ [%3].'.[@$_FoundShip.{1}.knownname, @$_FoundShip.{1}.idcode, @$_FoundShip.{1}.owner.knownname]"/>
+            </do_for_each>
+          </do_if>
+          <debug_to_file directory="$DebugFolderName" name="$DebugFileName" text="'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n'"/>
+
+          <debug_to_file directory="$DebugFolderName" name="$DebugFileName" text="'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'"/>
+          <debug_to_file directory="$DebugFolderName" name="$DebugFileName" text="'global.$AnotherExplorerV2S_Settings'"/>
+          <debug_to_file directory="$DebugFolderName" name="$DebugFileName" text="'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'"/>
+          <do_if value="global.$AnotherExplorerV2S_Settings?">
+            <do_for_each name="$_Entry" in="global.$AnotherExplorerV2S_Settings">
+              <debug_to_file directory="$DebugFolderName" name="$DebugFileName" text="' ~ ' + $_Entry"/>
+            </do_for_each>
+          </do_if>
+          <debug_to_file directory="$DebugFolderName" name="$DebugFileName" text="'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n'"/>
+
+          <debug_to_file directory="$DebugFolderName" name="$DebugFileName" text="'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'"/>
+          <debug_to_file directory="$DebugFolderName" name="$DebugFileName" text="'global.$AnotherExplorerV2G_Settings'"/>
+          <debug_to_file directory="$DebugFolderName" name="$DebugFileName" text="'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'"/>
+          <do_if value="global.$AnotherExplorerV2G_Settings?">
+            <do_for_each name="$_Entry" in="global.$AnotherExplorerV2G_Settings">
+              <debug_to_file directory="$DebugFolderName" name="$DebugFileName" text="' ~ ' + $_Entry"/>
+            </do_for_each>
+          </do_if>
+          <debug_to_file directory="$DebugFolderName" name="$DebugFileName" text="'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n'"/>
+
+        </do_if>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <do_if value="$DEBUG gt 0">
+          <debug_to_file directory="$DebugFolderName" name="$DebugFileName" text="'[' + player.systemtime.{'%F - %X'} + '] ' + '~~ ' + $DebugScriptName + '.xml ~ Finished ~~'"/>
+          <debug_to_file directory="$DebugFolderName" name="$DebugFileName" text="'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n'"/>
+          <remove_value name="$DebugFileName"/>
+          <remove_value name="$DebugFolderName"/>
+          <remove_value name="$DebugScriptName"/>
+        </do_if>
+        <remove_value name="$DEBUG"/>
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+      </actions>
+    </cue>
+
+    <cue name="JP_AnotherExplorerV2ManageFleet_MD" instantiate="false" checkinterval="1ms" checktime="player.age + 1s">
+      <actions>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <set_value name="$DEBUG" exact="0"/>
+        <do_if value="$DEBUG gt 0">
+          <set_value name="$DebugScriptName" exact="'JP_AnotherExplorerV2ManageFleet_MD'"/>
+          <set_value name="$DebugFolderName" exact="'JP_AnotherExplorerV2.logs'"/>
+          <set_value name="$DebugFileName" exact="$DebugScriptName + '.xml.log'"/>
+          <debug_to_file append="false" directory="$DebugFolderName" name="$DebugFileName" text="'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'"/>
+          <debug_to_file directory="$DebugFolderName" name="$DebugFileName" text="'[' + player.systemtime.{'%F - %X'} + '] ' + '~~ ' + $DebugScriptName + '.xml ~ Started ~~' + '\n'"/>
+        </do_if>
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+        <do_if value="$DEBUG gt 0">
+          <debug_to_file directory="$DebugFolderName" name="$DebugFileName" text="'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'"/>
+          <debug_to_file directory="$DebugFolderName" name="$DebugFileName" text="'TimeMeasurement ~ Start: ' + player.age"/>
+          <debug_to_file directory="$DebugFolderName" name="$DebugFileName" text="'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n'"/>
+        </do_if>
+
+        <do_if value="global.$AnotherExplorerV2Ships? and global.$AnotherExplorerV2Ships.count gt 0">
+          <do_for_each name="$_AnotherExplorerV2Ship" in="global.$AnotherExplorerV2Ships">
+            <do_if value="$_AnotherExplorerV2Ship.{1}.defaultorder.id == 'JP_AnotherExplorerV2G' and $_AnotherExplorerV2Ship.{1}.subordinates.count gt 0">
+              <substitute_text source="$_AnotherExplorerV2Ship.{1}.fleet.name" text="$_FleetName">
+                <replace string="'AnotherExplorerV2Routine'" with="''"/>
+              </substitute_text>
+              <do_if value="$_AnotherExplorerV2Ship.{1}.fleet.name != $_FleetName">
+                <do_for_each name="$_Subordinate" in="$_AnotherExplorerV2Ship.{1}.subordinates">
+                  <do_if value="$_Subordinate.isunit">
+                    <continue/>
+                  </do_if>
+                  <do_if value="$_Subordinate.defaultorder.id != $_AnotherExplorerV2Ship.{1}.defaultorder.id or $_Subordinate.assignment != assignment.assist">
+                    <set_object_commander object="$_Subordinate" commander="$_AnotherExplorerV2Ship.{1}" assignment="assignment.assist"/>
+                    <create_order object="$_Subordinate" id="$_AnotherExplorerV2Ship.{1}.defaultorder.id" default="true">
+                      <param name="UNKNOWN_SECTORS" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$UNKNOWN_SECTORS"/>
+                      <param name="JUMP_GATES" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$JUMP_GATES"/>
+                      <param name="STATIONS" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$STATIONS"/>
+                      <param name="ENEMY_STATIONS" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$ENEMY_STATIONS"/>
+                      <param name="FRIENDLY_STATIONS" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$FRIENDLY_STATIONS"/>
+                      <param name="IDLE" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$IDLE"/>
+                      <param name="IDLE_TIME" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$IDLE_TIME"/>
+                      <param name="IDLE_FOLLOW" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$IDLE_FOLLOW"/>
+                      <param name="WHO_TO_FOLLOW" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$WHO_TO_FOLLOW"/>
+                      <param name="IDLE_DOCKING" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$IDLE_DOCKING"/>
+                      <param name="WHERE_TO_DOCK" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$WHERE_TO_DOCK"/>
+                      <param name="IDLE_RANDOM_MOVEMENT" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$IDLE_RANDOM_MOVEMENT"/>
+                      <param name="IN_WHICH_SECTOR" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$IN_WHICH_SECTOR"/>
+                      <param name="IDLE_MOVE_TO" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$IDLE_MOVE_TO"/>
+                      <param name="WHERE_TO_MOVE" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$WHERE_TO_MOVE"/>
+                      <param name="ADD_ORDER_TAG" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$ADD_ORDER_TAG"/>
+                      <param name="ORDER_TAG_POSITION" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$ORDER_TAG_POSITION"/>
+                      <param name="DEBUG" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$DEBUG"/>
+                    </create_order>
+                  </do_if>
+                  <do_else>
+                    <do_if value="$_Subordinate.defaultorder.$UNKNOWN_SECTORS != $_AnotherExplorerV2Ship.{1}.defaultorder.$UNKNOWN_SECTORS">
+                      <edit_order_param order="$_Subordinate.defaultorder" param="'UNKNOWN_SECTORS'" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$UNKNOWN_SECTORS"/>
+                    </do_if>
+                    <do_if value="$_Subordinate.defaultorder.$JUMP_GATES != $_AnotherExplorerV2Ship.{1}.defaultorder.$JUMP_GATES">
+                      <edit_order_param order="$_Subordinate.defaultorder" param="'JUMP_GATES'" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$JUMP_GATES"/>
+                    </do_if>
+                    <do_if value="$_Subordinate.defaultorder.$STATIONS != $_AnotherExplorerV2Ship.{1}.defaultorder.$STATIONS">
+                      <edit_order_param order="$_Subordinate.defaultorder" param="'STATIONS'" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$STATIONS"/>
+                    </do_if>
+                    <do_if value="$_Subordinate.defaultorder.$ENEMY_STATIONS != $_AnotherExplorerV2Ship.{1}.defaultorder.$ENEMY_STATIONS">
+                      <edit_order_param order="$_Subordinate.defaultorder" param="'ENEMY_STATIONS'" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$ENEMY_STATIONS"/>
+                    </do_if>
+                    <do_if value="$_Subordinate.defaultorder.$FRIENDLY_STATIONS != $_AnotherExplorerV2Ship.{1}.defaultorder.$FRIENDLY_STATIONS">
+                      <edit_order_param order="$_Subordinate.defaultorder" param="'FRIENDLY_STATIONS'" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$FRIENDLY_STATIONS"/>
+                    </do_if>
+                    <do_if value="$_Subordinate.defaultorder.$IDLE != $_AnotherExplorerV2Ship.{1}.defaultorder.$IDLE">
+                      <edit_order_param order="$_Subordinate.defaultorder" param="'IDLE'" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$IDLE"/>
+                    </do_if>
+                    <do_if value="$_Subordinate.defaultorder.$IDLE_TIME != $_AnotherExplorerV2Ship.{1}.defaultorder.$IDLE_TIME">
+                      <edit_order_param order="$_Subordinate.defaultorder" param="'IDLE_TIME'" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$IDLE_TIME"/>
+                    </do_if>
+                    <do_if value="$_Subordinate.defaultorder.$IDLE_FOLLOW != $_AnotherExplorerV2Ship.{1}.defaultorder.$IDLE_FOLLOW">
+                      <edit_order_param order="$_Subordinate.defaultorder" param="'IDLE_FOLLOW'" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$IDLE_FOLLOW"/>
+                    </do_if>
+                    <do_if value="$_Subordinate.defaultorder.$WHO_TO_FOLLOW != $_AnotherExplorerV2Ship.{1}.defaultorder.$WHO_TO_FOLLOW">
+                      <edit_order_param order="$_Subordinate.defaultorder" param="'WHO_TO_FOLLOW'" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$WHO_TO_FOLLOW"/>
+                    </do_if>
+                    <do_if value="$_Subordinate.defaultorder.$IDLE_DOCKING != $_AnotherExplorerV2Ship.{1}.defaultorder.$IDLE_DOCKING">
+                      <edit_order_param order="$_Subordinate.defaultorder" param="'IDLE_DOCKING'" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$IDLE_DOCKING"/>
+                    </do_if>
+                    <do_if value="$_Subordinate.defaultorder.$WHERE_TO_DOCK != $_AnotherExplorerV2Ship.{1}.defaultorder.$WHERE_TO_DOCK">
+                      <edit_order_param order="$_Subordinate.defaultorder" param="'WHERE_TO_DOCK'" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$WHERE_TO_DOCK"/>
+                    </do_if>
+                    <do_if value="$_Subordinate.defaultorder.$IDLE_RANDOM_MOVEMENT != $_AnotherExplorerV2Ship.{1}.defaultorder.$IDLE_RANDOM_MOVEMENT">
+                      <edit_order_param order="$_Subordinate.defaultorder" param="'IDLE_RANDOM_MOVEMENT'" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$IDLE_RANDOM_MOVEMENT"/>
+                    </do_if>
+                    <do_if value="$_Subordinate.defaultorder.$IN_WHICH_SECTOR != $_AnotherExplorerV2Ship.{1}.defaultorder.$IN_WHICH_SECTOR">
+                      <edit_order_param order="$_Subordinate.defaultorder" param="'IN_WHICH_SECTOR'" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$IN_WHICH_SECTOR"/>
+                    </do_if>
+                    <do_if value="$_Subordinate.defaultorder.$IDLE_MOVE_TO != $_AnotherExplorerV2Ship.{1}.defaultorder.$IDLE_MOVE_TO">
+                      <edit_order_param order="$_Subordinate.defaultorder" param="'IDLE_MOVE_TO'" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$IDLE_MOVE_TO"/>
+                    </do_if>
+                    <do_if value="$_Subordinate.defaultorder.$WHERE_TO_MOVE != $_AnotherExplorerV2Ship.{1}.defaultorder.$WHERE_TO_MOVE">
+                      <edit_order_param order="$_Subordinate.defaultorder" param="'WHERE_TO_MOVE'" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$WHERE_TO_MOVE"/>
+                    </do_if>
+                    <do_if value="$_Subordinate.defaultorder.$ADD_ORDER_TAG != $_AnotherExplorerV2Ship.{1}.defaultorder.$ADD_ORDER_TAG">
+                      <edit_order_param order="$_Subordinate.defaultorder" param="'ADD_ORDER_TAG'" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$ADD_ORDER_TAG"/>
+                    </do_if>
+                    <do_if value="$_Subordinate.defaultorder.$ORDER_TAG_POSITION != $_AnotherExplorerV2Ship.{1}.defaultorder.$ORDER_TAG_POSITION">
+                      <edit_order_param order="$_Subordinate.defaultorder" param="'ORDER_TAG_POSITION'" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$ORDER_TAG_POSITION"/>
+                    </do_if>
+                    <do_if value="$_Subordinate.defaultorder.$DEBUG != $_AnotherExplorerV2Ship.{1}.defaultorder.$DEBUG">
+                      <edit_order_param order="$_Subordinate.defaultorder" param="'DEBUG'" value="$_AnotherExplorerV2Ship.{1}.defaultorder.$DEBUG"/>
+                    </do_if>
+                  </do_else>
+                </do_for_each>
+                <set_value name="$_FleetName" exact="'\033#FF03A1FC#' + 'AnotherExplorerV2Routine'"/>
+                <do_if value="$_AnotherExplorerV2Ship.{1}.fleet.name != $_FleetName">
+                  <set_object_fleet_name object="$_AnotherExplorerV2Ship.{1}" name="$_FleetName"/>
+                </do_if>
+              </do_if>
+            </do_if>
+          </do_for_each>
+        </do_if>
+
+        <do_if value="$DEBUG gt 0">
+          <debug_to_file directory="$DebugFolderName" name="$DebugFileName" text="'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'"/>
+          <debug_to_file directory="$DebugFolderName" name="$DebugFileName" text="'TimeMeasurement ~ End: ' + player.age"/>
+          <debug_to_file directory="$DebugFolderName" name="$DebugFileName" text="'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n'"/>
+        </do_if>
+
+        <remove_value name="$_FoundShips"/>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <do_if value="$DEBUG gt 0">
+          <debug_to_file directory="$DebugFolderName" name="$DebugFileName" text="'[' + player.systemtime.{'%F - %X'} + '] ' + '~~ ' + $DebugScriptName + '.xml ~ Finished ~~'"/>
+          <debug_to_file directory="$DebugFolderName" name="$DebugFileName" text="'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n'"/>
+          <remove_value name="$DebugFileName"/>
+          <remove_value name="$DebugFolderName"/>
+          <remove_value name="$DebugScriptName"/>
+        </do_if>
+        <remove_value name="$DEBUG"/>
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+      </actions>
+    </cue>
+
+    <cue name="JP_AnotherExplorerV2Cleanup_MD" instantiate="false" checkinterval="1ms" checktime="player.age + 1s">
+      <conditions>
+      </conditions>
+      <actions>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <set_value name="$DEBUG" exact="0"/>
+        <do_if value="$DEBUG gt 0">
+          <set_value name="$DebugScriptName" exact="'JP_AnotherExplorerV2Cleanup_MD'"/>
+          <set_value name="$DebugFolderName" exact="'JP_AnotherExplorerV2.logs'"/>
+          <set_value name="$DebugFileName" exact="$DebugScriptName + '.xml.log'"/>
+          <debug_to_file append="false" directory="$DebugFolderName" name="$DebugFileName" text="'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~'"/>
+          <debug_to_file directory="$DebugFolderName" name="$DebugFileName" text="'[' + player.systemtime.{'%F - %X'} + '] ' + '~~ ' + $DebugScriptName + '.xml ~ Started ~~' + '\n'"/>
+        </do_if>
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+        <do_if value="global.$AnotherExplorerV2G_Settings?">
+          <do_if value="global.$AnotherExplorerV2G_Settings.count != 18">
+            <remove_value name="global.$AnotherExplorerV2G_Settings"/>
+          </do_if>
+        </do_if>
+
+        <do_if value="global.$AnotherExplorerV2S_Settings?">
+          <do_if value="global.$AnotherExplorerV2S_Settings.count != 17">
+            <remove_value name="global.$AnotherExplorerV2S_Settings"/>
+          </do_if>
+        </do_if>
+
+        <do_if value="global.$AnotherExplorerV2Ships? and global.$AnotherExplorerV2Ships.count gt 0">
+          <do_for_each name="$_AnotherExplorerV2Ship" in="global.$AnotherExplorerV2Ships">
+            <do_if value="$_AnotherExplorerV2Ship.{1}.defaultorder.id != 'JP_AnotherExplorerV2S' and $_AnotherExplorerV2Ship.{1}.defaultorder.id != 'JP_AnotherExplorerV2G'">
+
+              <!-- Get rid of the order tag -->
+              <substitute_text source="$_AnotherExplorerV2Ship.{1}.knownname" text="$_ResultName">
+                <replace string="('\033#FFA95908#' + '#AEV2-S ' + '\033X')" with="''"/>
+                <replace string="('\033#FFA95908#' + '#AEV2-G ' + '\033X')" with="''"/>
+                <replace string="('\033#FFA95908#' + ' #AEV2-S' + '\033X')" with="''"/>
+                <replace string="('\033#FFA95908#' + ' #AEV2-G' + '\033X')" with="''"/>
+              </substitute_text>
+              <do_if value="$_AnotherExplorerV2Ship.{1}.knownname != $_ResultName">
+                <set_object_name object="$_AnotherExplorerV2Ship.{1}" name="$_ResultName"/>
+              </do_if>
+
+              <!-- Clean sectors -->
+              <do_if value="global.$AnotherExplorerV2SectorBlackList?">
+                <remove_from_list name="global.$AnotherExplorerV2SectorBlackList" exact="$_AnotherExplorerV2Ship.{2}"/>
+              </do_if>
+              
+              <cancel_all_orders object="$_AnotherExplorerV2Ship.{1}"/>
+
+              <!-- remove from global anotherexplorerv2 ships list -->
+              <remove_from_list name="global.$AnotherExplorerV2Ships" exact="$_AnotherExplorerV2Ship"/>
+              
+            </do_if>
+          </do_for_each>
+        </do_if>
+
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+        <do_if value="$DEBUG gt 0">
+          <debug_to_file directory="$DebugFolderName" name="$DebugFileName" text="'[' + player.systemtime.{'%F - %X'} + '] ' + '~~ ' + $DebugScriptName + '.xml ~ Finished ~~'"/>
+          <debug_to_file directory="$DebugFolderName" name="$DebugFileName" text="'~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~\n'"/>
+          <remove_value name="$DebugFileName"/>
+          <remove_value name="$DebugFolderName"/>
+          <remove_value name="$DebugScriptName"/>
+        </do_if>
+        <remove_value name="$DEBUG"/>
+        <!-- ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ -->
+
+      </actions>
+    </cue>
+
+  </cues>
+</mdscript>
